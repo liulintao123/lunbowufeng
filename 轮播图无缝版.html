@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <style media="screen">
+      *{margin:0;padding:0;}
+      li{list-style:none;}
+      #photo{
+        width:1000px;
+        margin:100px auto;
+        position:relative;
+        overflow:hidden;
+        border-radius:6px;
+        height:409px;
+      }
+      #zuo,#you{
+        position:absolute;
+        top:45%;
+        cursor:pointer;
+        transition:all .5s;
+        opacity: .7;
+      }
+      #zuo{
+        left:20px;
+      }
+      #you{
+        right:20px;
+      }
+      #photo ul{
+        width:10000px;
+      }
+      #photo li{
+        float:left;
+      }
+	</style>
+</head>
+<body>
+	<div id="photo">
+		<ul style="margin-left:0;">
+			<li class="show"><img src="images/1.jpg"></li>
+			<li><img src="images/2.jpg"></li>
+			<li><img src="images/3.jpg"></li>
+			<li><img src="images/4.jpg"></li>
+			<li><img src="images/5.jpg"></li>
+			<li><img src="images/6.jpg"></li>
+		</ul>
+		<img src="images/l.png" id="zuo" alt="">
+		<img src="images/r.png" id="you" alt="">
+	<script>
+		var you=document.getElementById("you")
+		var zuo=document.getElementById("zuo")
+		var ul=document.getElementById("photo").getElementsByTagName("ul")[0]
+		var lilist=ul.getElementsByTagName("li")
+		var n=0	/*记录图片当前的张数*/
+		var img=lilist.length  /*图片的长度*/
+		you.onclick=function(){
+			n++;
+			if(n == img){
+				n=0
+				NewLi=lilist[0].cloneNode(true)/*克隆一个节点*/
+				ul.appendChild(NewLi)				/*将克隆的副本插入到ul中*/
+			}														
+				move()
+		}
+		function move(){
+		var t=setInterval(function(){
+			var mL=parseInt(ul.style.marginLeft)/*声明一个变量将移动的值赋给mL*/
+			// 如果移动的值等于当前图片的值那么让它停下
+				if(mL==n * (-1000)){
+					clearInterval(t)
+					return;				/*让它直接跳出函数重新执行*/
+				}
+				if(n==0){		/*	/*当在最后一张时点击按钮校正到第一张*/
+				ul.style.marginLeft=0        /*当ul的marginLeft等于0时看不到滚动的过程*/
+				ul.removeChild(NewLi)
+				}
+				else{
+				ul.style.marginLeft=mL+Math.floor((n * (-1000)-mL)/20)+"px"
+				}
+			},20)					
+		}
+		zuo.onclick=function(){
+			n--
+
+		}
+	</script>
+</body>
+</html>
